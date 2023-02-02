@@ -1,13 +1,23 @@
 require("dotenv").config();
+const mongoose = require("mongoose");
+const PORT = process.env.PORT || 5001;
+const { DB_USER, DB_HOST, DB_PASS } = process.env;
 
 const app = require("./src/app");
 
-const port = parseInt(process.env.APP_PORT ?? "5000", 10);
+mongoose.set("strictQuery", true);
 
-app.listen(port, (err) => {
-  if (err) {
-    console.error("Something bad happened");
-  } else {
-    console.log(`Server is listening on ${port}`);
+const start = async () => {
+  try {
+    await mongoose.connect(
+      `mongodb+srv://${DB_USER}:${DB_PASS}@${DB_HOST}/?retryWrites=true&w=majority`
+    );
+    app.listen(PORT, () => {
+      console.log(`server startet on ${PORT}`);
+    });
+  } catch (e) {
+    console.log(e);
   }
-});
+};
+
+start();

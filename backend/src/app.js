@@ -1,7 +1,10 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-const router = require("./router");
+
+const userRouter = require("./routes/userRouter");
+const memeRouter = require("./routes/memeRouter");
+const adminRouter = require("./routes/adminRouter");
 
 const app = express();
 
@@ -13,14 +16,14 @@ app.use(
 );
 
 app.use(express.json());
+app.use("/", memeRouter);
+app.use("/user", userRouter);
+app.use("/admin", adminRouter);
 
 // Serve the public folder for public resources
 app.use(express.static(path.join(__dirname, "../public")));
 
 // Serve REACT APP
 app.use(express.static(path.join(__dirname, "..", "..", "frontend", "dist")));
-
-// API routes
-app.use(router);
 
 module.exports = app;
