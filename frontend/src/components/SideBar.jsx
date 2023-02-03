@@ -2,6 +2,7 @@ import HomeIcon from "../images/home.svg";
 import LogoutIcon from "../images/power.svg";
 import SettingsIcon from "../images/settings.svg";
 import MemesIcon from "../images/layers.svg";
+import Favorites from "../images/myfavorite.svg";
 
 export default function SideBar() {
   return (
@@ -24,6 +25,9 @@ export default function SideBar() {
           </div>
           <div className="mb-5">
             <img src={MemesIcon} alt="Memes" className="w-full" />
+          </div>
+          <div className="mb-5">
+            <img src={Favorites} alt="Favorites" className="w-full" />
           </div>
           <div className="mb-5">
             <img src={SettingsIcon} alt="Settings" className="w-full" />

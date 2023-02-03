@@ -1,47 +1,74 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, createRef } from "react";
 import { getAllMemes } from "../api/memes";
+import { exportComponentAsJPEG } from "react-component-export-image";
+
+import Text from "./Text";
+
+import RandomIcon from "../images/random.svg";
+import TextIcon from "../images/type.svg";
+import SaveIcon from "../images/save.svg";
+import PostIcon from "../images/post.svg";
 
 function Generate() {
   const [data, setData] = useState([]);
+  const [field, setField] = useState(0);
+  const [randomMeme, setRandomMeme] = useState([
+    "https://i.imgflip.com/56p56k.jpg",
+  ]);
+
+  const generatingRef = createRef();
 
   useEffect(() => {
     getAllMemes().then((memes) => setData(memes.data.memes));
   }, []);
 
+  const randomizeMeme = () => {
+    const memeImg = data[Math.floor(Math.random() * data.length)];
+    console.log(memeImg.url);
+    setRandomMeme(memeImg.url);
+  };
+
+  const addText = () => {
+    if (field < 4) setField(field + 1);
+  };
+
   return (
-    <div className="flex justify-center sm:flex-row flex-col p-4 gap-x-4 items-center">
-      <div>
-        {data.map((el) => (
-          <img
-            src={el.url}
-            alt="Preview"
-            className="max-h-[300px]"
-          />
-        ))}
-      </div>
-      <div className="flex flex-col justify-around items-center h-[300px]">
-        <p className="text-2xl text-orange-500 font-semibold">
-          Write your text:
-        </p>
-        <div>
-          <input
-            type="text"
-            className="border-2 border-orange-500 rounded-full bg-stone-900 outline-none"
-          />
+    <div className="flex justify-center flex-col-reverse p-4 gap-y-3 items-center">
+      {randomMeme && (
+        <div
+          ref={generatingRef}
+          className={`flex bg-[url('${randomMeme}')] w-1/2 bg-contain bg-center bg-no-repeat h-[400px]`}
+        >
+          <div>
+            {Array(field)
+              .fill(0)
+              .map(() => {
+                return <Text />;
+              })}
+          </div>
         </div>
-        <div>
-          <input
-            type="text"
-            className="border-2 border-orange-500 rounded-full bg-stone-900 outline-none"
-          />
+      )}
+      <div className="bg-orange-500 px-5 py-2 rounded-full gap-x-4 flex">
+        <div
+          className="bg-stone-900 rounded-full p-3 cursor-pointer"
+          onClick={addText}
+        >
+          <img src={TextIcon} alt="Type" />
         </div>
-        <div className="flex justify-around w-full">
-          <button className="bg-orange-500 rounded-lg py-2 px-4 text-slate-900 font-semibold">
-            Generate
-          </button>
-          <button className="bg-orange-500 rounded-lg py-2 px-4 text-slate-900 font-semibold">
-            Post
-          </button>
+        <div
+          className="bg-stone-900 rounded-full p-3 cursor-pointer"
+          onClick={randomizeMeme}
+        >
+          <img src={RandomIcon} alt="Change" />
+        </div>
+        <div
+          className="bg-stone-900 rounded-full p-3 cursor-pointer"
+          onClick={() => exportComponentAsJPEG(generatingRef)}
+        >
+          <img src={SaveIcon} alt="Save" />
+        </div>
+        <div className="bg-stone-900 rounded-full p-3 cursor-pointer">
+          <img src={PostIcon} alt="Post" />
         </div>
       </div>
     </div>
