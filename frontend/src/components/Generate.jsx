@@ -1,36 +1,36 @@
-import { useState, useEffect, createRef } from "react";
-import { getAllMemes } from "../api/memes";
-import { exportComponentAsJPEG } from "react-component-export-image";
+import { useState, useEffect, createRef } from "react"
+import { getAllMemes } from "../api/memes"
+import { exportComponentAsJPEG } from "react-component-export-image"
 
-import Text from "./Text";
+import Text from "./Text"
 
-import RandomIcon from "../images/random.svg";
-import TextIcon from "../images/type.svg";
-import SaveIcon from "../images/save.svg";
-import PostIcon from "../images/post.svg";
+import RandomIcon from "../images/random.svg"
+import TextIcon from "../images/type.svg"
+import SaveIcon from "../images/save.svg"
+import PostIcon from "../images/post.svg"
 
 function Generate() {
-  const [data, setData] = useState([]);
-  const [field, setField] = useState(0);
+  const [data, setData] = useState([])
+  const [field, setField] = useState(0)
   const [randomMeme, setRandomMeme] = useState([
     "https://i.imgflip.com/56p56k.jpg",
-  ]);
+  ])
 
-  const generatingRef = createRef();
+  const generatingRef = createRef()
 
   useEffect(() => {
-    getAllMemes().then((memes) => setData(memes.data.memes));
-  }, []);
+    getAllMemes().then((memes) => setData(memes.data.memes))
+  }, [])
 
   const randomizeMeme = () => {
-    const memeImg = data[Math.floor(Math.random() * data.length)];
-    console.log(memeImg.url);
-    setRandomMeme(memeImg.url);
-  };
+    const memeImg = data[Math.floor(Math.random() * data.length)]
+    console.log(memeImg.url)
+    setRandomMeme(memeImg.url)
+  }
 
   const addText = () => {
-    if (field < 4) setField(field + 1);
-  };
+    if (field < 4) setField(field + 1)
+  }
 
   return (
     <div className="flex justify-center flex-col-reverse p-4 gap-y-3 items-center">
@@ -42,8 +42,8 @@ function Generate() {
           <div>
             {Array(field)
               .fill(0)
-              .map(() => {
-                return <Text />;
+              .map((i) => {
+                return <Text key={i} />
               })}
           </div>
         </div>
@@ -72,7 +72,7 @@ function Generate() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Generate;
+export default Generate
