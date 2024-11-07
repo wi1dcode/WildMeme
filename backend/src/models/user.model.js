@@ -12,6 +12,18 @@ const User = new Schema(
       required: true,
     },
     avatar: String,
+    memes: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Meme",
+      },
+    ],
+    favorites: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Meme",
+      },
+    ],
     role: {
       type: String,
       default: "user",
@@ -19,6 +31,7 @@ const User = new Schema(
     },
   },
   {
+    timestamps: true,
     versionKey: false,
   }
 );

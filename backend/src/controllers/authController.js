@@ -41,6 +41,21 @@ const signup = async (req, res) => {
   }
 };
 
+const validateToken = async (req, res) => {
+  try {
+    const token = req.headers.authorization;
+    if (!token) {
+      return res.status(403).json({ message: "Token is missing" });
+    }
+
+    const userData = authService.validateAccessToken(token.split("Bearer ")[1]);
+
+    return res.status(200).json({ userData });
+  } catch (e) {
+    res.status(403).json({ message: "Token invalid" });
+  }
+};
+
 // const signup = async (req, res) => {
 //   try {
 //     const errors = validationResult(req);
@@ -98,4 +113,5 @@ const login = async (req, res) => {
 module.exports = {
   signup,
   login,
+  validateToken,
 };

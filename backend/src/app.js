@@ -16,7 +16,7 @@ app.use(
 );
 
 app.use(express.json());
-app.use("/", memeRouter);
+app.use("/memes", memeRouter);
 app.use("/user", userRouter);
 app.use("/admin", adminRouter);
 

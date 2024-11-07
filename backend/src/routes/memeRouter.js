@@ -5,7 +5,7 @@ const router = express.Router();
 const authMiddleware = require("../middlewares/authMiddleware");
 const memeController = require("../controllers/memeController");
 
-router.get("/", memeController.getMemes);
+router.get("/all", memeController.getMemes);
 router.get("/:id", memeController.getMemeById);
 router.post(
   "/upload",
